@@ -9,7 +9,10 @@ i,
 span,
 footer,
 header,
-nav {
+nav,
+input,
+button,
+p {
     margin: 0;
     padding: 0;
 }

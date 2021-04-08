@@ -18,26 +18,40 @@
 
 <body>
     <header>
-        <div class="g-contanier">
-            <div>
-                <img src="images\logo@2x.png" alt="#">
+        <div class="g-container">
+            <div class="g-header-top">
+                <img src="images\logo@2x.png" alt="#" class="m-logo">
                 <nav class="g-top-nav">
                     <a href="">音乐馆</a>
                     <a href="">我的音乐</a>
-                    <a href="" class="m-dropMenu-btn">客户端
-                        <img src="" class="">
+                    <div class="m-dropdown-btn">
+                        <a href="">
+                        客户端
+                        <img src="images/mark_1.png" class="top-nav-mark">
+                        </a>
+                        <!-- a套不了div，包多一层做下拉菜单 -->
                         <div class="m-dropdown">
-                            <p><i class="client_privilege__icon client_privilege__icon--hq"></i> HQ高品质 全员开启</p>
-                            <p><i></i> 独家音效 全面升级</p>
-                            <p><i></i> 轻盈视觉 动态皮肤</p>
+                            <p><i class="icon-hq dropdown-icon"></i> HQ高品质 全员开启</p>
+                            <p><i class="icon-dts dropdown-icon"></i> 独家音效 全面升级</p>
+                            <p><i class="icon-t-shirt dropdown-icon"></i> 轻盈视觉 动态皮肤</p>
                             <a class="top-download-btn">下载体验</a>
                         </div>
-                    </a>
+                        
+                    </div>
                     <a href="">开放平台</a>
                     <a href="">VIP</a>
                 </nav>
-                <div class="g-search-module"></div>
-                <div class="g-login-module"></div>
+                <div class="m-search">
+                    <input type="search" placeholder="搜索音乐、MV、歌单、用户" class="u-search-input">
+                    <button class="u-search-btn">
+                        <i class="u-search-icon"></i>
+                    </button>
+                </div>
+                <div class="g-login">
+                    <a href="">登录</a>
+                    <a href=""></a>
+                    <a href=""></a>
+                </div>
             </div>
             <div class="m-line"></div>
             <nav class="g-top-subnav">
@@ -56,38 +70,38 @@
     <main>
         <!-- 歌单推荐 -->
         <article class="recommendation m-slide-box">
-            <div class="g-contanier"">
+            <div class="g-container"">
                 <h2>歌单推荐</h2>
-                <div class="m-tab-index">
-                    <a href="">为你推荐</a>
-                    <a href="">官方歌单</a>
-                    <a href="">情歌</a>
-                    <a href="">网络歌曲</a>
-                    <a href="">经典</a>
-                    <a href="">KTV热歌</a>
+                <div class=" m-tab-index">
+                <a href="">为你推荐</a>
+                <a href="">官方歌单</a>
+                <a href="">情歌</a>
+                <a href="">网络歌曲</a>
+                <a href="">经典</a>
+                <a href="">KTV热歌</a>
+            </div>
+            <div class="m-show">
+                <div class="m-slide-list">
+                    <section class="m-slide-item">
+                        <div class="m-slide-item-pic">
+                            <a href="">
+                                <img src="" alt="">
+                                <i class="m-cover-mask"></i>
+                                <i class="play"></i>
+                            </a>
+                        </div>
+                        <div>
+                            <h4>
+                                <p></p>
+                                <P></P>
+                            </h4>
+                        </div>
+                    </section>
                 </div>
-                <div class="m-show">
-                    <div class="m-slide-list">
-                        <section class="m-slide-item">
-                            <div class="m-slide-item-pic">
-                                <a href="">
-                                    <img src="" alt="">
-                                    <i class="m-cover-mask"></i>
-                                    <i class="play"></i>
-                                </a>
-                            </div>
-                            <div>
-                                <h4>
-                                    <p></p>
-                                    <P></P>
-                                </h4>
-                            </div>
-                        </section>
-                    </div>
-                    <div class="m-slide-index"></div>
-                </div>
-                <div class="u-switch-button pre"></div>
-                <div class="u-switch-button cur"></div>
+                <div class="m-slide-index"></div>
+            </div>
+            <div class="u-switch-button pre"></div>
+            <div class="u-switch-button cur"></div>
             </div>
         </article>
         <!-- 新歌首发 -->
@@ -131,4 +145,5 @@
     </main>
     <footer></footer>
 </body>
+
 </html>
