@@ -2,6 +2,11 @@
     width: 75rem;
     margin: auto;
 }
+.m-line {
+    width: 100%;
+    height: .02rem;
+    background-color: #f2f2f2;
+}
 /* 头部 */
 header {
     width: 100%;
@@ -14,8 +19,9 @@ header nav {
 .g-header-top {
     display: flex;
     height: 5rem;
-    background-color: pink;
+    /* background-color: pink; */
     flex-flow: row nowrap;
+    justify-content: space-between;
     align-items: center;
 }
 .m-logo {
@@ -44,6 +50,9 @@ header nav {
 .m-dropdown-btn {
     position: relative;
 }
+.m-dropdown-btn:hover .m-dropdown {
+    display: flex;
+}
 .top-nav-mark {
     position: absolute;
     top: 1rem;
@@ -51,12 +60,12 @@ header nav {
     height: .875rem;
 }
 .m-dropdown {
-    display: flex;
+    display: none;
     position: absolute;
-    /* display: none; */
     width: 10rem;
     top: 100%;
     padding: 1rem 0 1.5rem 0;
+    background-color: #fff;
     align-items: center;
     flex-flow: column nowrap;
     box-shadow: 0 0 .3rem rgba(0, 0, 0, .3);
@@ -72,10 +81,12 @@ header nav {
     width: 8rem;
     height: 1.5rem;
     padding: 0;
+    margin-top: .5rem;
     border-radius: .75rem;
     color: #fff;
     background: linear-gradient(to right,#24ccaa,#31c27c);
     justify-content: center;
+    cursor: pointer;
 }
 .top-download-btn:hover {
     background: #31c27c;
@@ -90,13 +101,19 @@ header nav {
 .icon-hq {
     background-position: 0 0;
 }
+.icon-dts {
+    background-position: 0 -1.5rem;
+}
+.icon-t-shirt {
+    background-position: 0 -3rem;
+}
 /* 搜索模块 */
 .m-search {
     display: flex;
     width: 14rem;
     height: 2.2rem;
     border: .1rem solid #c9c9c9;
-    border-radius: .1rem;
+    border-radius: .3rem;
     background-color: #fff;  
     justify-content: space-between;  
 }
@@ -130,3 +147,115 @@ header nav {
     background-position: 0 -3.75rem;
 }
 /* 登录模块 */
+.m-login {
+    display: flex;
+    width: 19rem;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.m-login >:first-of-type a{
+    color: #000;
+}
+.m-login >:first-of-type a:hover {
+    color: #31c27c;
+}
+.m-select {
+    position: relative;
+    height: 2.5rem;
+    border: .1rem solid #c9c9c9;
+    border-radius: .3rem;
+    font-size: .8rem;
+}
+.m-select:hover .select-list{
+    display: flex;
+}
+.vip-option {
+    width: 7.625rem;
+    background-color: #31c27c;
+}
+.vip-option .m-select-tri{
+    border-color: #fff transparent transparent transparent;;
+}
+.vip-option .m-select-title {
+    color: #fff;
+} 
+.pay-option {
+    width: 5.25rem;
+    background-color: #fff;
+}
+.m-select-title {
+    position: relative;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    color: #000;
+}
+.m-select-tri {
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: 45%;
+    right: 5%;
+    border: .3rem solid ;
+    border-color: #000 transparent transparent transparent;
+}
+.m-select .select-list {
+    display: none;
+    position: absolute;
+    top: 95%;
+    left: -.1rem;
+    height: 5rem;
+    background-color: #fff;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+}
+.m-select .select-list a {
+    display: flex;
+    flex:1 1;
+    justify-content: center;
+    align-items: center;
+    color: #000;
+    border-style: solid;
+    border-color: #c9c9c9;
+}
+.vip-option .select-list a {
+    width: 7.625rem;
+}
+.pay-option .select-list a {
+    width: 5.25rem;
+}
+.m-select .select-list a:first-of-type {
+    border-width: 0 .1rem .1rem .1rem ;
+}
+.m-select .select-list a:last-of-type {
+    border-width: 0 .1rem .1rem .1rem;
+    border-radius: 0 0 .3rem .3rem;
+}
+.pay-option .m-select-title:hover,
+.pay-option:hover,
+.m-select .select-list a:hover {
+    color: #fff;
+    background-color: #31c27c;
+}
+.m-select:hover .m-select-tri {
+    top: 30%;
+    border-color: transparent transparent #fff transparent;
+}
+/* 副导航栏 */
+.g-top-subnav {
+    display: flex;
+    height: 3.25rem;
+    justify-content: center;
+    align-items: center;
+}
+.g-top-subnav a {
+    margin: 0 1.1rem 0 1.1rem;
+    color: #000;
+}
+.g-top-subnav :first-of-type {
+    color: #31c27c;
+}
+.g-top-subnav a:hover {
+    color: #31c27c;
+}
