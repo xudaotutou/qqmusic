@@ -1,3 +1,6 @@
+body {
+    min-width: 75rem;
+}
 .g-container {
     width: 75rem;
     margin: auto;
@@ -249,18 +252,17 @@ header nav {
 }
 .g-top-subnav a {
     margin: 0 1.1rem 0 1.1rem;
-    color: #000;
 }
 .g-top-subnav :first-of-type {
     color: #31c27c;
 }
-.g-top-subnav a:hover {
-    color: #31c27c;
-}
+
 /* 切换模块 */
 .m-slide-box {
+    position: relative;
     padding: 2rem 0 2rem 0;
     background: linear-gradient(to bottom,#f2f2f2,#fff);
+    overflow: hidden;
 }
 .m-slide-box h2 {
     display: flex;
@@ -269,7 +271,9 @@ header nav {
     align-items: center;
 }
 .m-tab-index {
+    position: relative;
     display: flex; 
+    height: 3.125rem;
     margin-bottom: 2rem;
     flex-flow: row nowrap;
     justify-content: center;
@@ -279,41 +283,36 @@ header nav {
 } 
 .m-tab-index a{
     margin: 0 1.1rem 0 1.1rem;
-    color: #000;
 }
 .m-tab-index .j-tab-active {
     color: #31c27c;
 }
-.m-tab-index a:hover {
-    color: #31c27c;
+.m-slide-list {
+    display: flex;
 }
+
 .m-slide-item {
     width: 15rem;
 }
 .m-slide-item-pic {
     position: relative;
-    width: 14rem;
-    height: 14rem;
     overflow: hidden;
 }
 .m-slide-item-pic img{
-    width: 14rem;
-    height: 14rem;
+    width: 100%;
+    height: 100%;
     transition: .5s;
     background-color: pink;
 }
 .m-cover-mask {
     position: absolute;
-    width: 14rem;
-    height: 14rem;
+    width: 100%;
+    height: 100%;
     top: 0;
     left: 0;
     background-color: #000;
     opacity: 0;
     transition: .5s;
-}
-.m-slide-item-pic:hover img{
-    transform: scale(110%);
 }
 .m-video-play {
     position: absolute;
@@ -323,6 +322,7 @@ header nav {
     left: 50%;
     background-image: url(../images/cover_play@2x.png);
     background-size: contain;
+    background-repeat: no-repeat;
     transform: translate(-50%,-50%);
     transition: .5s;
 }
@@ -330,8 +330,12 @@ header nav {
     opacity: .3;
 }
 .m-slide-item-pic:hover .m-video-play {
-    width: 4rem;
-    height: 4rem;
+    width: 35%;
+    height: 35%;
+}
+.m-des {
+    padding: 1rem 0 0 0;
+    color: #999999;
 }
 /* 点点 */
 .m-slide-index ul{
@@ -348,11 +352,15 @@ header nav {
 .m-slide-index .j-index-active {
     background-color: #afafaf;
 }
+/* 切换按钮 */
 .u-switch-button {
     position: absolute;
     width: 4.874rem;
     height: 6.75rem;
-    background-color: #ececec;
+    top: 50%;
+    background-color: rgba(0, 0, 0, .05);
+    transition: .3s;
+    transform: translateY(-50%);
 }
 .u-switch-button i {
     position: absolute;
@@ -365,14 +373,205 @@ header nav {
     transform: translate(-50%,-50%);
 }
 .u-slide-pre {
-    left: 0;
+    left: -4.875rem;
 }
 .u-slide-pre i {
     background-position: -19.8125rem -4.5rem;
 }
 .u-slide-cur {
-    right: 0;
+    right: -4.875rem;
 }
 .u-slide-cur i {
     background-position: -14.6875rem -4.5rem;
+}
+.m-slide-box:hover .u-slide-pre {
+    left: 0;
+}
+.m-slide-box:hover .u-slide-cur {
+    right: 0;
+}
+.u-switch-button:hover {
+    background-color: rgba(0, 0, 0, .1);
+}
+.m-others {
+    position: absolute;
+    display: flex;
+    right: 0;
+}
+.m-more-icon {
+
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-left: .3rem;
+    background-image: url(../images/icon_sprite@2x.png);
+    background-size: 12.5rem auto;
+    background-position: -7.34875rem -2.25rem;
+}
+.m-others:hover .m-more-icon {
+    background-position-y: -3.5rem;
+}
+/* 歌单推荐 */
+.recommendation .m-slide-item-pic {
+    width: 15rem;
+    height: 15rem;
+}
+.recommendation .m-slide-item-pic:hover img{
+    transform: scale(1.2);
+}
+/* 新歌首发 */
+.new-songs-starts .m-slide-item-pic{
+    width: 14rem;
+    height: 14rem;
+}
+.new-songs-starts .m-slide-item-pic:hover img{
+    transform: scale(1.2);
+}
+.g-container .m-tab-index .play-all {
+    position: absolute;
+    left: 0;
+    padding: .5rem 1rem ;
+    border: .02rem solid #c9c9c9;
+    border-radius: .2rem;
+    margin: 0;
+    color: #000;
+    background-color: #fff;
+}
+.play-all:hover {
+    background-color: #ededed;
+}
+.play-all-icon {
+    background-image: url(../images/icon_sprite@2x.png);
+    background-size: 25rem auto;
+}
+.new-songs-starts .m-tab-index {
+    position: relative;
+}
+.new-songs-starts .m-slide-item {
+    display: flex;
+    width: 25rem;
+}
+.new-songs-starts .m-slide-item-pic {
+    width: 5.375rem;
+    height: 5.375rem;
+}
+.new-songs-starts time {
+    color: #999999;
+}
+/* 精彩推荐 */
+.ex-recommendation .m-slide-item{
+    width: 37.5rem;
+    padding: 1rem;
+}
+/* 新碟首发 */
+.new-disc-starts .m-slide-item-pic {
+    width: 15rem;
+    height: 15rem;
+}
+.new-disc-starts .m-slide-item-pic:hover img{
+    transform: scale(1.2);
+}
+/* 排行榜 */
+.ranking-list {
+    background: linear-gradient(to bottom,#f2f2f2,#fff);
+}
+.ranking-list h2 {
+    position: relative;
+}
+.ranking-list .m-others {
+    font: initial;
+}
+.ranking-list section {
+    display: flex;
+    width: 14rem;
+    height: 31rem;
+    margin-right: 1rem;
+    background-image: url(../images/bg_index_top.jpg);
+    flex-flow: column nowrap;
+    align-items: center;
+    transition: .5s;
+}
+.ranking-list section h3 {
+    color: #fff;
+    text-align: center;
+}
+.ranking-list section h3 p {
+    font-weight: initial;
+}
+.ranking-list section h3 a{
+    color: #fff;
+}
+.m-rank-line {
+    display: inline-block;
+    position: relative;
+    height: .2rem;
+    width: 2rem;
+    margin-bottom: 2rem;
+    background-color: pink;
+    transition: .5s;
+}
+.ranking-list section:hover .m-video-play{
+    width: 2.2rem;
+    height: 2.2rem;
+}
+.ranking-list section:hover .m-rank-line {
+    background-color: rgba(255,255,255,0);
+}
+.ranking-list section:hover {
+    background-position-y: -.2rem;
+}
+.new-ranking {
+    background-position-x: -14rem;
+}
+.popular-ranking {
+    background-position-x: -28rem;
+}
+.us-ranking {
+    background-position-x: -42rem;
+}
+.korea-ranking  {
+    background-position-x: -56rem;
+}
+/* MV */
+.music-video .m-slide-item-pic {
+    height: 7.875rem;
+}
+.music-video .m-slide-item-pic:hover .m-video-play {
+    width: 3rem;
+}
+
+.icon-video {
+    display: inline-block;
+    height: 0.9rem;
+    width: 1.5rem;
+    margin-right: .2rem;
+    background-image: url(../images/icon_sprite@2x.png);
+    background-size: 12.5rem auto;
+    background-position: -11.1rem -1.19rem;
+}
+.music-video .m-des a {
+    font: initial;
+}
+.music-video .m-des p:hover {
+    color: #31c27c;
+    cursor: pointer;
+}
+/* 页脚 */
+footer {
+    height: 40rem;
+    background-color: #333;
+}
+.footer-info {
+    display: flex;
+    flex-flow: row wrap;
+}
+.footer-info ul {
+    display: flex;
+}
+.footer-download-list-item a {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+}
+.footer-info i {
+    background-image: url(../images/footer@2x.png);
 }
