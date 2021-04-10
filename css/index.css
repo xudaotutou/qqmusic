@@ -10,7 +10,6 @@
 /* 头部 */
 header {
     width: 100%;
-    height: 9rem;
 }
 header nav {
     display: flex;
@@ -232,7 +231,7 @@ header nav {
     border-width: 0 .1rem .1rem .1rem;
     border-radius: 0 0 .3rem .3rem;
 }
-.pay-option .m-select-title:hover,
+.pay-option:hover .m-select-title,
 .pay-option:hover,
 .m-select .select-list a:hover {
     color: #fff;
@@ -244,8 +243,7 @@ header nav {
 }
 /* 副导航栏 */
 .g-top-subnav {
-    display: flex;
-    height: 3.25rem;
+    height: 4rem;
     justify-content: center;
     align-items: center;
 }
@@ -258,4 +256,123 @@ header nav {
 }
 .g-top-subnav a:hover {
     color: #31c27c;
+}
+/* 切换模块 */
+.m-slide-box {
+    padding: 2rem 0 2rem 0;
+    background: linear-gradient(to bottom,#f2f2f2,#fff);
+}
+.m-slide-box h2 {
+    display: flex;
+    margin: 2rem 0 2rem 0;
+    justify-content: center;
+    align-items: center;
+}
+.m-tab-index {
+    display: flex; 
+    margin-bottom: 2rem;
+    flex-flow: row nowrap;
+    justify-content: center;
+}
+.m-show {
+    overflow: hidden;
+} 
+.m-tab-index a{
+    margin: 0 1.1rem 0 1.1rem;
+    color: #000;
+}
+.m-tab-index .j-tab-active {
+    color: #31c27c;
+}
+.m-tab-index a:hover {
+    color: #31c27c;
+}
+.m-slide-item {
+    width: 15rem;
+}
+.m-slide-item-pic {
+    position: relative;
+    width: 14rem;
+    height: 14rem;
+    overflow: hidden;
+}
+.m-slide-item-pic img{
+    width: 14rem;
+    height: 14rem;
+    transition: .5s;
+    background-color: pink;
+}
+.m-cover-mask {
+    position: absolute;
+    width: 14rem;
+    height: 14rem;
+    top: 0;
+    left: 0;
+    background-color: #000;
+    opacity: 0;
+    transition: .5s;
+}
+.m-slide-item-pic:hover img{
+    transform: scale(110%);
+}
+.m-video-play {
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: 50%;
+    left: 50%;
+    background-image: url(../images/cover_play@2x.png);
+    background-size: contain;
+    transform: translate(-50%,-50%);
+    transition: .5s;
+}
+.m-slide-item-pic:hover .m-cover-mask {
+    opacity: .3;
+}
+.m-slide-item-pic:hover .m-video-play {
+    width: 4rem;
+    height: 4rem;
+}
+/* 点点 */
+.m-slide-index ul{
+    display: flex;
+    justify-content: center;
+}
+.m-slide-index li{
+    width: .5rem;
+    height: .5rem;
+    margin: .5rem;
+    border-radius: 50%;
+    background-color: #e1e1e1;
+}
+.m-slide-index .j-index-active {
+    background-color: #afafaf;
+}
+.u-switch-button {
+    position: absolute;
+    width: 4.874rem;
+    height: 6.75rem;
+    background-color: #ececec;
+}
+.u-switch-button i {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 1.25rem;
+    height: 2.5rem;
+    background-image: url(../images/icon_sprite@2x.png);
+    background-size: 25rem auto;
+    transform: translate(-50%,-50%);
+}
+.u-slide-pre {
+    left: 0;
+}
+.u-slide-pre i {
+    background-position: -19.8125rem -4.5rem;
+}
+.u-slide-cur {
+    right: 0;
+}
+.u-slide-cur i {
+    background-position: -14.6875rem -4.5rem;
 }
