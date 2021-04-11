@@ -12,7 +12,9 @@ header,
 nav,
 input,
 button,
-p {
+p, 
+ul,
+li {
     margin: 0;
     padding: 0;
 }

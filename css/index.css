@@ -557,21 +557,90 @@ header nav {
 }
 /* 页脚 */
 footer {
-    height: 40rem;
+    padding-bottom: 2rem;
     background-color: #333;
+}
+div,
+.footer-info h3,
+footer a {
+    color: #999999;
 }
 .footer-info {
     display: flex;
     flex-flow: row wrap;
+    justify-content: flex-start;
 }
-.footer-info ul {
+.footer-info-item {
+    margin-top: 4rem;
+}
+.footer-info h3 {
+    font-weight: 400;
+}
+.footer-list {
     display: flex;
+    width: 25rem;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    flex: 1;
 }
-.footer-download-list-item a {
+.footer-list-item {
+    margin: 0 1.6rem 1rem 0;
+}
+.footer-list-item a {
     display: flex;
     flex-flow: column;
     align-items: center;
 }
-.footer-info i {
-    background-image: url(../images/footer@2x.png);
+.footer-list-item a:hover {
+    color: #31c27c;
 }
+.footer-info .footer-list-item:hover i{
+    background-position-y: -3.06rem;
+}
+.footer-info i {
+    width: 3rem;
+    height: 3rem;
+    background-image: url(../images/footer@2x.png);
+    background-size: 50rem auto;
+}
+
+.icon-Mac {
+    background-position-x: -5.625rem;
+}
+.icon-Andoid {
+    background-position-x: -11.438rem;
+}
+.icon-iPhone {
+    background-position-x: -16.875rem;
+}
+.icon-qmkg {
+    background-position-x: -22.9375rem;
+}
+.icon-s-s {
+    background-position-x: -28.5625rem;
+}
+.icon-Qplay {
+    background-position-x: -34.875rem;
+}
+.icon-Fan {
+    background-position-x: -40.375rem;
+}
+/* 合作link */
+.footer-link .footer-list-item {
+    width: 6rem;
+}
+.footer-link .footer-list-item a{
+    align-items: flex-start;
+}
+/* 版权信息 */
+.footer-copyright {
+    display: flex;
+    margin-top: 4rem;
+
+    flex-flow: column ;
+    align-items: center;
+}
+.footer-copyright >div {
+    margin-bottom: 1rem;
+}
+
