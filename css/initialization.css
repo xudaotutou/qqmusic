@@ -28,3 +28,6 @@ a:hover {
 li {
     list-style: none;
 }
+input {
+    outline: none;
+}
