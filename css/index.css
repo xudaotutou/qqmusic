@@ -335,6 +335,7 @@ header nav {
 .m-slide-box h2 {
     display: flex;
     margin: 2rem 0 2rem 0;
+    color: #000;
     justify-content: center;
     align-items: center;
 }
@@ -347,6 +348,8 @@ header nav {
     justify-content: center;
 }
 .m-show {
+    position: relative;
+    height: 21rem;
     overflow: hidden;
 } 
 .m-tab-index a{
@@ -356,11 +359,14 @@ header nav {
     color: #31c27c;
 }
 .m-slide-list {
+    position: absolute;
     display: flex;
+    justify-content: flex-start;
 }
-
 .m-slide-item {
     width: 15rem;
+    flex-basis: 15rem;
+    cursor: pointer;
 }
 .m-slide-item-pic {
     position: relative;
@@ -402,10 +408,19 @@ header nav {
     height: 35%;
 }
 .m-des {
+    position: relative;
+    height: 5rem;
     padding: 1rem 0 0 0;
     color: #999999;
 }
+
 /* 点点 */
+.m-slide-index {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%);
+}
 .m-slide-index ul{
     display: flex;
     justify-content: center;
@@ -479,9 +494,16 @@ header nav {
     background-position-y: -3.5rem;
 }
 /* 歌单推荐 */
+.recommendation .m-show {
+    height: 23rem;
+}
+.recommendation .m-des p {
+    position: absolute;
+    bottom: 0;
+}
 .recommendation .m-slide-item-pic {
-    width: 15rem;
-    height: 15rem;
+    width: 14rem;
+    height: 14rem;
 }
 .recommendation .m-slide-item-pic:hover img{
     transform: scale(1.2);
@@ -514,15 +536,29 @@ header nav {
 .new-songs-starts .m-tab-index {
     position: relative;
 }
+.new-songs-starts .m-slide-list {
+    width: 225rem;
+    height: 16.5rem;
+    flex-flow: row wrap;
+}
 .new-songs-starts .m-slide-item {
+    position: relative;
     display: flex;
     width: 25rem;
+    height: 5.5rem;
+    flex-basis: 25rem;
+    align-items: center;
 }
 .new-songs-starts .m-slide-item-pic {
     width: 5.375rem;
     height: 5.375rem;
 }
+.new-songs-starts .m-desc {
+    padding-left: 1rem;
+}
 .new-songs-starts time {
+    position: absolute;
+    right: 1rem;
     color: #999999;
 }
 /* 精彩推荐 */
@@ -547,6 +583,9 @@ header nav {
 }
 .ranking-list .m-others {
     font: initial;
+}
+.ranking-list .m-slide-list {
+    position: initial;
 }
 .ranking-list section {
     display: flex;
@@ -602,6 +641,7 @@ header nav {
 /* MV */
 .music-video .m-slide-item-pic {
     height: 7.875rem;
+    width: 14rem;
 }
 .music-video .m-slide-item-pic:hover .m-video-play {
     width: 3rem;

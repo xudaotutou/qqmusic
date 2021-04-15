@@ -11,3 +11,4 @@ loginmask.addEventListener('click',()=>{
     loginBox.style.display = 'none';
     loginmask.style.display = 'none';
 });
+export{loginBtn}
