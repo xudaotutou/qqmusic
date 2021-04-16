@@ -1,6 +1,22 @@
-"use strict"
-import{ handleTime } from './function.js';
-import{loginBtn} from './index.js';
+"use strict";
+(function (doc, win) {
+  let docEl = doc.documentElement,
+      resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+      recalc = function () {
+          let clientWidth = docEl.clientWidth;
+          if (!clientWidth) return;
+          if(clientWidth>=1200){
+              docEl.style.fontSize = '16x';
+          }else{
+              docEl.style.fontSize = 15 * (clientWidth / 1200) + 'px';
+          }
+      };
+  if (!doc.addEventListener) return;
+  win.addEventListener('resize', recalc);
+  doc.addEventListener('DOMContentLoaded', recalc);
+})(document, window);
+import { handleTime, loginS,loginAppear} from './function.js';
+import{loginBox, loginBtn} from './index.js';
 function XHR(url, method = 'GET', data = null, action) {
   const defaultUrlHeader = "https://autumnfish.cn/";
   let xhr = new XMLHttpRequest();
@@ -27,30 +43,34 @@ function XHR(url, method = 'GET', data = null, action) {
     }
   }
 }
-
+let user;
 // 登录模块
 const loginForm = document.querySelector('.login-form');
 loginForm.addEventListener('submit', e => {
-  // console.log('adad');
   e.preventDefault();
-  XHR('/login/cellphone', 'POST', `phone=${loginForm.querySelector('[name=phone]').value}&password=${loginForm.querySelector('[name=password]').value}`);
+  XHR('/login/cellphone', 'POST', `phone=${loginForm.querySelector('[name=phone]').value}&password=${loginForm.querySelector('[name=password]').value}`,(response)=>{
+    user = response;
+    if(user.code === 200){
+      loginS(elt=>elt.style.backgroundImage = `url(${user.profile.avatarUrl})`);
+      loginBtn.removeEventListener('click',loginAppear);
+    } 
+    console.log(user);
+  });
 });
-//音乐相关类
-// class AboutMusic {
-//   constructor(name){
-//     this.name = name;
-//   }
-// }
+// 准备写个头像
+// 应该能写成一个音乐相关类
 // 推荐歌单 
-XHR('/personalized', 'GET', null, response => {
-  let recsonglist = response.result;
-  // console.log(recsonglist);
-  const recsong = document.querySelector('.recommendation');
-  const SlideList = recsong.querySelector('.m-slide-list');
-  recsonglist.forEach(element => {
+function aboutmusic(title, data, drawAction) {
+  const SlideList = document.querySelector(title).querySelector('.m-slide-list');
+  data.forEach(element => {
     let section = document.createElement('section');
     SlideList.append(section);
     section.className = 'm-slide-item';
+    drawAction(section, element);
+  })
+}
+XHR('/personalized', 'GET', null, response => {
+  aboutmusic('.recommendation', response.result, (section, element) => {
     section.innerHTML = `
     <div class="m-slide-item-pic">
     <img src="${element.picUrl}" alt="">
@@ -63,17 +83,11 @@ XHR('/personalized', 'GET', null, response => {
     </div>`;
   });
 });
+
 // 新歌首发
 XHR('/personalized/newsong', 'GET', 'limit=27', response => {
-  let topsonglist = response.result;
-  //  console.log(topsonglist);
-  const topsong = document.querySelector('.new-songs-starts');
-  const SlideList = topsong.querySelector('.m-slide-list');
-  topsonglist.forEach(element => {
-    let section = document.createElement('section');
+  aboutmusic('.new-songs-starts', response.result, (section, element) => {
     let time = handleTime(element.song.duration);
-    SlideList.append(section);
-    section.className = 'm-slide-item';
     section.innerHTML = `
     <div class="m-slide-item-pic">
       <img src="${element.picUrl}" alt="${element.name}">
@@ -87,15 +101,35 @@ XHR('/personalized/newsong', 'GET', 'limit=27', response => {
     <time>${time}</time>`;
   });
 });
+// 精彩推荐
+XHR('/personalized/privatecontent', 'GET', null, response => {
+  aboutmusic('.ex-recommendation', response.result, (section, element) => {
+    section.innerHTML = `
+    <div class="m-slide-item-pic">
+        <img src="${element.picUrl}" alt="${element.name}">
+    </div>`;
+    section.addEventListener('click', () => window.open(element.sPicUrl));
+  });
+})
+// 新碟首发
+XHR('/album/new', 'GET', 'limit=10', response => {
+  aboutmusic('.new-disc-starts', response.albums, (section, element) => {
+    section.innerHTML = `
+    <div class="m-slide-item-pic">
+    <img src="${element.blurPicUrl}" alt="${element.name}">
+    <i class="m-cover-mask"></i>
+    <i class="m-video-play"></i>
+    </div>
+    <div class="m-des">
+    <h4><a href="">${element.name}</a></h4>
+    <p>${element.artist.name}</p>
+    </div>`;
+    // section.addEventListener('click', () => window.open(element.sPicUrl));
+  });
+})
 // 最新专辑
 XHR('/mv/first', 'GET', 'limit=10', response => {
-  let newMVlist = response.data;//数组
-  const mv = document.querySelector('.music-video');
-  const SlideList = mv.querySelector('.m-slide-list');
-  newMVlist.forEach(element => {
-    let section = document.createElement('section');
-    SlideList.append(section);
-    section.className = 'm-slide-item';
+  aboutmusic('.music-video', response.data, (section, element) => {
     section.innerHTML = `
     <div class="m-slide-item-pic">
     <img src="${element.cover}" alt="${element.name}">
@@ -110,6 +144,5 @@ XHR('/mv/first', 'GET', 'limit=10', response => {
       XHR('/mv/url', 'GET', 'id=' + element.id, response2 => window.open(response2.data.url))
     });
   });
-
 });
 export { }

@@ -1,3 +1,4 @@
+import{loginmask,loginBox,loginBtn as loginHead, loginBtn} from './index.js'
 function handleTime(timestamp){
     let second = parseInt(timestamp / 1000);
     let min = parseInt(second / 60);
@@ -6,4 +7,18 @@ function handleTime(timestamp){
     second = (second === 0) ? '00' : (second < 10) ? '0' + second : second + '';
     return `${min}:${second}`;
 }
-export{handleTime};
+function loginAppear(){
+    loginBox.style.display = 'flex';
+    loginmask.style.display = 'block';
+}
+function loginHiden() {
+    loginBox.style.display = 'none';
+    loginmask.style.display = 'none';
+}
+function loginS(action){
+    loginHiden();
+    loginHead.innerHTML = '';
+    loginHead.className = 'login-head';
+    action(loginHead);
+}
+export{handleTime, loginHiden, loginS,loginAppear};

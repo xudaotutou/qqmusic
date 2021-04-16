@@ -162,6 +162,13 @@ header nav {
 .m-login >:first-of-type a:hover {
     color: #31c27c;
 }
+.login-head {
+    display: inline-block;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background-size: 3rem 3rem;
+}
 .m-login-box {
     position: fixed;
     display: none;
@@ -189,9 +196,11 @@ header nav {
 }
 .login-form input {
     border: none;
+    width: 10.3rem;
     height: 100%;
     padding-left: .3rem;
     background-color: #fff;
+    border-radius: .2rem;
 }
 .login-form >:nth-child(n) {
     width: 12rem;
@@ -365,7 +374,6 @@ header nav {
 }
 .m-slide-item {
     width: 15rem;
-    flex-basis: 15rem;
     cursor: pointer;
 }
 .m-slide-item-pic {
@@ -505,6 +513,9 @@ header nav {
     width: 14rem;
     height: 14rem;
 }
+.recommendation h4 {
+    width: 14rem;
+}
 .recommendation .m-slide-item-pic:hover img{
     transform: scale(1.2);
 }
@@ -546,7 +557,8 @@ header nav {
     display: flex;
     width: 25rem;
     height: 5.5rem;
-    flex-basis: 25rem;
+    /* flex-basis: 25rem; */
+    margin-bottom: 1rem;
     align-items: center;
 }
 .new-songs-starts .m-slide-item-pic {
@@ -558,18 +570,18 @@ header nav {
 }
 .new-songs-starts time {
     position: absolute;
-    right: 1rem;
+    right: 2rem;
     color: #999999;
 }
 /* 精彩推荐 */
 .ex-recommendation .m-slide-item{
     width: 37.5rem;
-    padding: 1rem;
+    padding-right: 1rem;
 }
 /* 新碟首发 */
 .new-disc-starts .m-slide-item-pic {
-    width: 15rem;
-    height: 15rem;
+    width: 14rem;
+    height: 14rem;
 }
 .new-disc-starts .m-slide-item-pic:hover img{
     transform: scale(1.2);
