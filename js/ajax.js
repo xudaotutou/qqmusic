@@ -43,29 +43,31 @@ function XHR(url, method = 'GET', data = null, action) {
     }
   }
 }
-let user;
 // 登录模块
 const loginForm = document.querySelector('.login-form');
 loginForm.addEventListener('submit', e => {
   e.preventDefault();
-  XHR('/login/cellphone', 'POST', `phone=${loginForm.querySelector('[name=phone]').value}&password=${loginForm.querySelector('[name=password]').value}`,(response)=>{
-    user = response;
-    if(user.code === 200){
+  XHR('/login/cellphone', 'POST', `phone=${loginForm.querySelector('[name=phone]').value}&password=${loginForm.querySelector('[name=password]').value}`,response=>{  
+    if(response.code === 200){
+      XHR('/topic/sublist','GET',null,response2=>localStorage.setItem('myplaylist',JSON.stringify(response2)));
+      XHR('/mv/sublist','GET',null,response2=>localStorage.setItem('mymv',JSON.stringify(response2)));
+      localStorage.setItem('user',JSON.stringify(response));
+      localStorage.setItem('user',JSON.stringify(response));
       loginS((elt,outelt)=>{
-        elt.style.backgroundImage = `url(${user.profile.avatarUrl})`
+        elt.style.backgroundImage = `url(${response.profile.avatarUrl})`
         outelt.addEventListener('click',()=>{
+          localStorage.removeItem('user');
           XHR('/logout','POST',null,null);
           elt.className = 'login-btn';
           elt.innerHTML = '登录';
           elt.removeAttribute('style');
-          setTimeout(()=>elt.addEventListener('click',loginAppear),0);
+          setTimeout(()=>elt.addEventListener('click',loginAppear),0);//防止登出时再次触发点击事件
         });
       });
       loginBtn.removeEventListener('click',loginAppear);
     } else {
       alert('密码或账户名有误!!!');
     }
-    console.log(user);
   });
 });
 // 准备写个头像
@@ -94,7 +96,6 @@ XHR('/personalized', 'GET', null, response => {
     </div>`;
   });
 });
-
 // 新歌首发
 XHR('/personalized/newsong', 'GET', 'limit=27', response => {
   aboutmusic('.new-songs-starts', response.result, (section, element) => {
@@ -156,4 +157,4 @@ XHR('/mv/first', 'GET', 'limit=10', response => {
     });
   });
 });
-export { }
+export {};

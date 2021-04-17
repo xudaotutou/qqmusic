@@ -1,0 +1,44 @@
+.g-container {
+    width: 75rem;
+    margin: auto;
+}
+/* 头部 */
+header {
+    display: grid;
+    grid-template-columns: 25rem 12rem 12rem 12rem;
+    grid-template-rows: repeat(5,5rem);
+    grid-template-areas:
+    "l a a a a"
+    "l b b b b"
+    "l c f g g"
+    "l d d d d"
+    "l e e e e";
+}
+.avatar {
+    width: 20rem;
+    height: 20rem;
+    border-radius: 50%;
+    border: .001rem solid rgb(229, 229, 229);
+    justify-self: center;
+    align-self: center;
+    grid-area: 1/1/6/2;
+}
+.user-name {
+    justify-self: center;
+    align-self: center;
+    grid-area: 1/2/2/5;
+}
+.line {
+    width: 100%;
+    height: 0.05rem;
+    background-color: #999;
+    justify-self: center;
+    align-self: center;
+    grid-area: 2/2/3/6;
+}
+header h3 {
+    grid-row-start: 3;
+}
+.person-desc {
+    grid-area: 4/2/6/5;
+}
