@@ -12,13 +12,16 @@ body {
 }
 /* 头部 */
 header {
+    position: relative;
     width: 100%;
+    z-index: 11;
 }
 header nav {
     display: flex;
     flex-flow: row nowrap;
 }
 .g-header-top {
+    position: relative;
     display: flex;
     height: 5rem;
     /* background-color: pink; */
@@ -163,11 +166,35 @@ header nav {
     color: #31c27c;
 }
 .login-head {
+    position: relative;
     display: inline-block;
     width: 3rem;
     height: 3rem;
     border-radius: 50%;
     background-size: 3rem 3rem;
+}
+.login-btn-span {
+    position: relative;
+}
+.login-dropdown {
+    display: flex;
+    float: left;
+    width: 6rem;
+    height: 0;
+    margin-top: 4rem;
+    background-color: #fff;
+    border-radius: .2rem;
+    flex-flow: column nowrap;
+    justify-content: space-evenly;
+    align-items: center;
+    transform: translate(-50%);
+    transition: .3s;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+.login-btn-span:hover .login-dropdown{
+    height: 5rem;
+    border: .01rem solid #999;
 }
 .m-login-box {
     position: fixed;

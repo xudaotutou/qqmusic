@@ -51,15 +51,26 @@ loginForm.addEventListener('submit', e => {
   XHR('/login/cellphone', 'POST', `phone=${loginForm.querySelector('[name=phone]').value}&password=${loginForm.querySelector('[name=password]').value}`,(response)=>{
     user = response;
     if(user.code === 200){
-      loginS(elt=>elt.style.backgroundImage = `url(${user.profile.avatarUrl})`);
+      loginS((elt,outelt)=>{
+        elt.style.backgroundImage = `url(${user.profile.avatarUrl})`
+        outelt.addEventListener('click',()=>{
+          XHR('/logout','POST',null,null);
+          elt.className = 'login-btn';
+          elt.innerHTML = '登录';
+          elt.removeAttribute('style');
+          setTimeout(()=>elt.addEventListener('click',loginAppear),0);
+        });
+      });
       loginBtn.removeEventListener('click',loginAppear);
-    } 
+    } else {
+      alert('密码或账户名有误!!!');
+    }
     console.log(user);
   });
 });
 // 准备写个头像
 // 应该能写成一个音乐相关类
-// 推荐歌单 
+// 推荐歌单
 function aboutmusic(title, data, drawAction) {
   const SlideList = document.querySelector(title).querySelector('.m-slide-list');
   data.forEach(element => {
