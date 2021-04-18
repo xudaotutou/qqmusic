@@ -517,7 +517,6 @@ header nav {
     right: 0;
 }
 .m-more-icon {
-
     width: 1.25rem;
     height: 1.25rem;
     margin-left: .3rem;
@@ -632,6 +631,7 @@ header nav {
     height: 31rem;
     margin-right: 1rem;
     background-image: url(../images/bg_index_top.jpg);
+    background-size: 75rem auto; 
     flex-flow: column nowrap;
     align-items: center;
     transition: .5s;
@@ -666,16 +666,16 @@ header nav {
     background-position-y: -.2rem;
 }
 .new-ranking {
-    background-position-x: -14rem;
+    background-position-x: -15rem;
 }
 .popular-ranking {
-    background-position-x: -28rem;
+    background-position-x: -30rem;
 }
 .us-ranking {
-    background-position-x: -42rem;
+    background-position-x: -45rem;
 }
 .korea-ranking  {
-    background-position-x: -56rem;
+    background-position-x: -60rem;
 }
 /* MV */
 .music-video .m-slide-item-pic {

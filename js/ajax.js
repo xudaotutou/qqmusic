@@ -1,7 +1,7 @@
 "use strict";
+import { handleTime, loginAppear,loginHiden,loginBtn,loginmask,loginBox} from './function.js';
 (function (doc, win) {
   let docEl = doc.documentElement,
-      resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
       recalc = function () {
           let clientWidth = docEl.clientWidth;
           if (!clientWidth) return;
@@ -15,63 +15,78 @@
   win.addEventListener('resize', recalc);
   doc.addEventListener('DOMContentLoaded', recalc);
 })(document, window);
-import { handleTime, loginS,loginAppear} from './function.js';
-import{loginBox, loginBtn} from './index.js';
-function XHR(url, method = 'GET', data = null, action) {
-  const defaultUrlHeader = "https://autumnfish.cn/";
-  let xhr = new XMLHttpRequest();
-  if (method === 'GET') {
-    xhr.open('GET', `${defaultUrlHeader}${url}?${data}`);
-    xhr.send();
-  } else {
-    xhr.open('POST', `${defaultUrlHeader}${url}?timestamp=${Date.now()}`);
-    // 添加时间戳，防止被缓存
-    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhr.send(`${data}`);
-  }
-  xhr.onreadystatechange = function () {
-    if (this.readyState === 4) {
-      if (this.status === 200) {
-        //  console.log(JSON.parse(this.responseText));
-        let response = JSON.parse(this.responseText);
-        // console.log(action(response));
-        action(response);
-      }
-      else {
-        console.log(this.status);
+
+window.addEventListener('load',()=>{
+  function XHR(url, method = 'GET', data = null, action) {
+    const defaultUrlHeader = "https://autumnfish.cn/";
+    let xhr = new XMLHttpRequest();
+    if (method === 'GET') {
+      xhr.open('GET', `${defaultUrlHeader}${url}?${data}`);
+      xhr.send();
+    } else {
+      xhr.open('POST', `${defaultUrlHeader}${url}?timestamp=${Date.now()}`);
+      // 添加时间戳，防止被缓存
+      xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xhr.send(`${data}`);
+    }
+    xhr.onreadystatechange = function () {
+      if (this.readyState === 4) {
+        if (this.status === 200) {
+          //  console.log(JSON.parse(this.responseText));
+          let response = JSON.parse(this.responseText);
+          // console.log(action(response));
+          if('function' === typeof action) action(response);
+        }
+        else {
+          console.log(this.status);
+        }
       }
     }
   }
-}
+function loginS(){
+  let user = JSON.parse(localStorage.getItem('user'))
+  if(user){
+    loginHiden();
+    loginBtn.innerHTML = '';
+    loginBtn.className = 'login-head';
+    const loginDropdown = document.createElement('div');
+    loginDropdown.className = 'login-dropdown';
+    loginBtn.append(loginDropdown);
+    loginDropdown.innerHTML = `
+    <a class="to-user-index" href="../userindex.html" target="_blank">个人首页</a>
+    <a class="login-out">退出登录</a>
+    `;
+    const loginOut = loginDropdown.querySelector('.login-out');
+    loginBtn.style.backgroundImage = `url(${user.profile.avatarUrl})`;
+    loginOut.addEventListener('click',()=>{
+        localStorage.removeItem('user');
+        XHR('/logout','POST',null,null);
+        loginBtn.className = 'login-btn';
+        loginBtn.innerHTML = '登录';
+        loginBtn.removeAttribute('style');
+        setTimeout(()=>loginBtn.addEventListener('click',loginAppear),0);//防止登出时再次触发点击事件
+    });
+    loginBtn.removeEventListener('click',loginAppear);
+  }
+  return user;
+}//刷头像
+loginS();
 // 登录模块
 const loginForm = document.querySelector('.login-form');
 loginForm.addEventListener('submit', e => {
   e.preventDefault();
   XHR('/login/cellphone', 'POST', `phone=${loginForm.querySelector('[name=phone]').value}&password=${loginForm.querySelector('[name=password]').value}`,response=>{  
     if(response.code === 200){
-      XHR('/topic/sublist','GET',null,response2=>localStorage.setItem('myplaylist',JSON.stringify(response2)));
-      XHR('/mv/sublist','GET',null,response2=>localStorage.setItem('mymv',JSON.stringify(response2)));
+      // XHR('/topic/sublist','GET',null,response2=>localStorage.setItem('myplaylist',JSON.stringify(response2)));
+      // XHR('/mv/sublist','GET',null,response2=>localStorage.setItem('mymv',JSON.stringify(response2)));
       localStorage.setItem('user',JSON.stringify(response));
-      localStorage.setItem('user',JSON.stringify(response));
-      loginS((elt,outelt)=>{
-        elt.style.backgroundImage = `url(${response.profile.avatarUrl})`
-        outelt.addEventListener('click',()=>{
-          localStorage.removeItem('user');
-          XHR('/logout','POST',null,null);
-          elt.className = 'login-btn';
-          elt.innerHTML = '登录';
-          elt.removeAttribute('style');
-          setTimeout(()=>elt.addEventListener('click',loginAppear),0);//防止登出时再次触发点击事件
-        });
-      });
-      loginBtn.removeEventListener('click',loginAppear);
+      loginS();
     } else {
       alert('密码或账户名有误!!!');
     }
   });
 });
-// 准备写个头像
-// 应该能写成一个音乐相关类
+
 // 推荐歌单
 function aboutmusic(title, data, drawAction) {
   const SlideList = document.querySelector(title).querySelector('.m-slide-list');
@@ -156,5 +171,6 @@ XHR('/mv/first', 'GET', 'limit=10', response => {
       XHR('/mv/url', 'GET', 'id=' + element.id, response2 => window.open(response2.data.url))
     });
   });
+});
 });
 export {};

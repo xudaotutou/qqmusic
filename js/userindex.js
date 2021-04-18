@@ -13,4 +13,4 @@ const personDesc = document.querySelector('.person-desc');
 eventCount.innerHTML = "动态：" + user.profile.eventCount;
 follows.innerHTML = "关注：" + user.profile.follows;
 followeds.innerHTML = "粉丝：" + user.profile.followeds;
-personDesc.innerHTML = `个人简介：${user.profile.description === ''? "这个人很懒，没有留下简介。":user.profile.description}`
+personDesc.innerHTML = `个人简介：${user.profile.description === ''? "这个人很懒，没有留下简介。":user.profile.description}`;
