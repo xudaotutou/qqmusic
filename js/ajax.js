@@ -17,11 +17,11 @@ import { handleTime, loginAppear,loginHiden,loginBtn,loginmask,loginBox} from '.
 })(document, window);
 
 window.addEventListener('load',()=>{
-  function XHR(url, method = 'GET', data = null, action) {
+  function XHR(url, method, data, action) {
     const defaultUrlHeader = "https://autumnfish.cn/";
     let xhr = new XMLHttpRequest();
     if (method === 'GET') {
-      xhr.open('GET', `${defaultUrlHeader}${url}?${data}`);
+      xhr.open('GET', `${defaultUrlHeader}${url}?timestamp=${Date.now()}&{data}`);
       xhr.send();
     } else {
       xhr.open('POST', `${defaultUrlHeader}${url}?timestamp=${Date.now()}`);
@@ -43,9 +43,11 @@ window.addEventListener('load',()=>{
       }
     }
   }
+//刷头像
 function loginS(){
   let user = JSON.parse(localStorage.getItem('user'))
   if(user){
+    XHR('/user/subcount','GET',`cookie=${encodeURIComponent(user.cookie)}`,response=>localStorage.setItem('myplaylist',JSON.stringify(response)),encodeURIComponent(user.cookie));
     loginHiden();
     loginBtn.innerHTML = '';
     loginBtn.className = 'login-head';
@@ -69,16 +71,15 @@ function loginS(){
     loginBtn.removeEventListener('click',loginAppear);
   }
   return user;
-}//刷头像
-loginS();
+}
+let user = loginS();
 // 登录模块
 const loginForm = document.querySelector('.login-form');
 loginForm.addEventListener('submit', e => {
   e.preventDefault();
   XHR('/login/cellphone', 'POST', `phone=${loginForm.querySelector('[name=phone]').value}&password=${loginForm.querySelector('[name=password]').value}`,response=>{  
     if(response.code === 200){
-      // XHR('/topic/sublist','GET',null,response2=>localStorage.setItem('myplaylist',JSON.stringify(response2)));
-      // XHR('/mv/sublist','GET',null,response2=>localStorage.setItem('mymv',JSON.stringify(response2)));
+      XHR('user/level','GET',null,response=>console.log(response));
       localStorage.setItem('user',JSON.stringify(response));
       loginS();
     } else {
@@ -86,8 +87,7 @@ loginForm.addEventListener('submit', e => {
     }
   });
 });
-
-// 推荐歌单
+// 音乐相关函数
 function aboutmusic(title, data, drawAction) {
   const SlideList = document.querySelector(title).querySelector('.m-slide-list');
   data.forEach(element => {
@@ -97,6 +97,7 @@ function aboutmusic(title, data, drawAction) {
     drawAction(section, element);
   })
 }
+// 推荐歌单
 XHR('/personalized', 'GET', null, response => {
   aboutmusic('.recommendation', response.result, (section, element) => {
     section.innerHTML = `
