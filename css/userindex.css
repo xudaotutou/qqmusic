@@ -26,7 +26,11 @@ header {
 .user-name {
     justify-self: center;
     align-self: center;
-    grid-area: 1/2/2/5;
+    grid-area: 1/2/2/4;
+}
+.level {
+    grid-area: 1/4/2/5;
+    align-self: center;
 }
 .line {
     width: 100%;
@@ -103,6 +107,9 @@ header h3 {
 .m-item-pic:hover .m-video-play {
     width: 35%;
     height: 35%;
+}
+.m-item-pic:hover img {
+    transform: scale(1.2);
 }
 .m-desc {
     display: flex;

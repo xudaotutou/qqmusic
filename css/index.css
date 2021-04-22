@@ -115,6 +115,7 @@ header nav {
 }
 /* 搜索模块 */
 .m-search {
+    position: relative;
     display: flex;
     width: 14rem;
     height: 2.2rem;
@@ -151,6 +152,23 @@ header nav {
 }
 .u-search-btn:hover .u-search-icon {
     background-position: 0 -3.75rem;
+}
+.search-dropdown {
+    position: absolute;
+    top: 100%;
+    width: 12rem;
+    height: 0;
+    background-color: #fff;
+    box-shadow: 0 0 .3rem rgba(0, 0, 0, .3);
+    z-index: 999;
+    transition: .5s;
+    overflow: hidden;
+}
+.search-dropdown :nth-child( 2n + 1) {
+    background-color: rgba(0, 0, 0, .06);
+}
+.search-dropdown div {
+    height: 1.4rem;
 }
 /* 登录模块 */
 .m-login {

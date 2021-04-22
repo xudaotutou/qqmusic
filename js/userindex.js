@@ -1,8 +1,11 @@
 "use strict";
 let user = JSON.parse(localStorage.getItem('user'));
 console.log(user);
+//头像，名字，等级
 const avatar = document.querySelector('.avatar');
 const userName = document.querySelector('.user-name');
+const level = document.querySelector('.level');
+level.innerHTML = "level: " + JSON.parse(localStorage.getItem('level')).data.level;
 avatar.src = user.profile.avatarUrl;
 userName.innerHTML = user.profile.nickname;
 // 动态，关注，粉丝，简介
@@ -41,3 +44,21 @@ function XHR(url, method = 'GET', data = null, action) {
       }
     }
   }
+// mv
+let mvshow =document.querySelector('.mymv');
+let mvsublist = JSON.parse(localStorage.getItem('mvsublist'));
+mvsublist.data.forEach(elt => {
+  const section = document.createElement('section');
+  section.innerHTML = `
+  <div class="m-item-pic">
+  <img src="${elt.coverUrl}" alt="${elt.title}">
+  <i class="m-cover-mask"></i>
+  <i class="m-video-play"></i>
+</div>
+<div class="m-desc">
+  <h4><a href="">${elt.title}</a></h4>
+  <p><a href="">${elt.creator.map(elt=>elt.userName).join('/')}</a></p>
+</div>
+  `;
+  mvshow.append(section);
+});
