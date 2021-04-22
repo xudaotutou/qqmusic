@@ -95,34 +95,43 @@ let defaultsearch = JSON.parse(localStorage.getItem('defaultsearch'));
 const search = document.querySelector('.m-search');
 const searchInput = search.querySelector('[type="search"]');
 const searchDropdown = search.querySelector('.search-dropdown');
-let searchdropdownkey;
 searchInput.addEventListener('click',e=>{
-    if(searchdropdownkey) clearTimeout(searchdropdownkey);
     searchDropdown.style.height = "16rem";
-    searchdropdownkey = setTimeout(()=>{
-      searchDropdown.removeAttribute('style');
-    },5000)
 })
-searchInput.addEventListener('keyup',()=>{
-  function differentTypeSearch(type){
-    let data;
-    XHR('/search','GET',`keywords=${!searchInput.value?defaultsearch.data.realkeyword:searchInput.value}&limit=1&type=${type}`,response=>data = response.result);
-    return data;
+// search.addEventListener('mouseleave',()=>{
+// setTimeout(()=>{
+//     searchDropdown.removeAttribute('style');
+//   },10000)
+// });
+function searchinput(){
+  function differentTypeSearch(name,type){
+    //如果没有输入值就用默认的关键字
+    XHR('/search','GET',`keywords=${!searchInput.value?defaultsearch.data.realkeyword:searchInput.value}&type=${type}`,response=>localStorage.setItem(name,JSON.stringify(response.result)));
   }
-  console.log(differentTypeSearch('1'));
-  searchDropdown =`
-  <div class="search-artisit">歌手</div>
-  <div><a href=""> </a></div>
-  <div class="search-mv">专辑</div>
-  <div><a href=""></a></div>
+  differentTypeSearch('search-artist','100');
+  differentTypeSearch('search-album','10');
+  differentTypeSearch('search-user','1002');
+  differentTypeSearch('search-music','1');
+  differentTypeSearch('search-playlist','1000');
+  //验证是否存在
+  // console.log(JSON.parse(localStorage.getItem('search-artist')));
+  let searchArtist = 
+  searchDropdown.innerHTML =`
+  <div class="search-artist">歌手</div>
+  <div class="search-artist-list"><a href="">${[...JSON.parse(localStorage.getItem('search-artist')).artists].length === 0?'':JSON.parse(localStorage.getItem('search-artist')).artists[0].name}</a></div>
+  <div class="search-album">专辑</div>
+  <div class="search-album-list"><a href="">${[...JSON.parse(localStorage.getItem('search-album')).albums].length === 0?'':JSON.parse(localStorage.getItem('search-album')).albums[0].name}</a></div>
   <div class="search-user">用户</div>
-  <div><a href=""></a></div>
+  <div class="search-user-list"><a href="">${[...JSON.parse(localStorage.getItem('search-user')).userprofiles].length === 0?'':JSON.parse(localStorage.getItem('search-user')).userprofiles[0].nickname}</a></div>
   <div class="search-music">单曲</div>
-  <div><a href=""></a></div>
+  <div class="search-music-list"><a href="">${[...JSON.parse(localStorage.getItem('search-music')).songs].length ==0?'':JSON.parse(localStorage.getItem('search-music')).songs[0].name}</a></div>
   <div class="search-playlist">歌单</div>
-  <div><a href=""></a></div>
+  <div class="search-playlist-list"><a href="">${[...JSON.parse(localStorage.getItem('search-playlist')).playlists].length===0?'':JSON.parse(localStorage.getItem('search-playlist')).playlists[0].name}</a></div>
   `;
-});
+}
+//打开页面渲染
+searchinput();
+searchInput.addEventListener('keyup',searchinput);
 // 音乐相关函数
 // function aboutmusic(title, data, drawAction) {
 //   const SlideList = document.querySelector(title).querySelector('.m-slide-list');
