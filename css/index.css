@@ -158,18 +158,24 @@ header nav {
     top: 100%;
     width: 12rem;
     height: 0;
+    
     background-color: #fff;
     box-shadow: 0 0 .3rem rgba(0, 0, 0, .3);
     z-index: 999;
     transition: .5s;
     overflow: hidden;
 }
-.search-dropdown >:nth-child( 2n + 1) {
+.search-dropdown .search-title {
     height: 1.4rem;
     color: #fff;
     background-color: rgb(49, 194, 124);
 }
-
+.search-dropdown >:nth-child(n) {
+    padding: .1rem .5rem .1rem .5rem;
+}
+.search-dropdown :nth-child(2n):not(.search-title) {
+    background-color: rgba(0,0,0,.08);
+}
 /* 登录模块 */
 .m-login {
     display: flex;
@@ -808,4 +814,3 @@ footer a {
 .footer-copyright >div {
     margin-bottom: 1rem;
 }
-

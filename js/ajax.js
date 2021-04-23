@@ -1,5 +1,6 @@
 "use strict";
-import { handleTime, loginAppear,loginHiden,loginBtn,loginmask,loginBox} from './function.js';
+import { handleTime, loginAppear, loginHiden, loginBtn, loginmask, loginBox, debound} from './function.js';
+//适配rem
 (function (doc, win) {
   let docEl = doc.documentElement,
       recalc = function () {
@@ -16,33 +17,33 @@ import { handleTime, loginAppear,loginHiden,loginBtn,loginmask,loginBox} from '.
   doc.addEventListener('DOMContentLoaded', recalc);
 })(document, window);
 
+
 window.addEventListener('load',()=>{
-  function XHR(url, method, data, action) {
-    const defaultUrlHeader = "https://autumnfish.cn/";
-    let xhr = new XMLHttpRequest();
-    if (method === 'GET') {
-      xhr.open('GET', `${defaultUrlHeader}${url}?timestamp=${Date.now()}&${data}`);
-      xhr.send();
-    } else {
-      xhr.open('POST', `${defaultUrlHeader}${url}?timestamp=${Date.now()}`);
-      // 添加时间戳，防止被缓存
-      xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-      xhr.send(`${data}`);
-    }
-    xhr.onreadystatechange = function () {
-      if (this.readyState === 4) {
-        if (this.status === 200) {
-          //  console.log(JSON.parse(this.responseText));
-          let response = JSON.parse(this.responseText);
-          // console.log(action(response));
-          if('function' === typeof action) action(response);
-        }
-        else {
-          console.log(this.status,url);
-        }
+  //请求数据
+function XHR(url, method, data, action) {
+  const defaultUrlHeader = "https://autumnfish.cn/";
+  let xhr = new XMLHttpRequest();
+  if (method === 'GET') {
+    xhr.open('GET', `${defaultUrlHeader}${url}?timestamp=${Date.now()}&${data}`);
+    xhr.send();
+  } else {
+    xhr.open('POST', `${defaultUrlHeader}${url}?timestamp=${Date.now()}`);
+    // 添加时间戳，防止被缓存
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.send(`${data}`);
+  }
+  xhr.onreadystatechange = function () {
+    if (this.readyState === 4) {
+      if (this.status === 200) {
+        let response = JSON.parse(this.responseText);
+        if('function' === typeof action) action(response);
+      }
+      else {
+        console.log(this.status,url);
       }
     }
   }
+}
 //刷头像
 function loginS(){
   let user = JSON.parse(localStorage.getItem('user'))
@@ -93,130 +94,141 @@ loginForm.addEventListener('submit', e => {
 XHR('/search/default','GET',null,response=>localStorage.setItem('defaultsearch',JSON.stringify(response)));
 let defaultsearch = JSON.parse(localStorage.getItem('defaultsearch'));
 const search = document.querySelector('.m-search');
-const searchInput = search.querySelector('[type="search"]');
+const searchInput = search.querySelector('.u-search-input');
 const searchDropdown = search.querySelector('.search-dropdown');
 searchInput.addEventListener('click',e=>{
-    searchDropdown.style.height = "16rem";
+    searchDropdown.style.height = "auto";
 })
-// search.addEventListener('mouseleave',()=>{
-// setTimeout(()=>{
-//     searchDropdown.removeAttribute('style');
-//   },10000)
-// });
+search.addEventListener('mouseleave',()=>searchDropdown.style.height = '0');
 function searchinput(){
   function differentTypeSearch(name,type){
     //如果没有输入值就用默认的关键字
-    XHR('/search','GET',`keywords=${!searchInput.value?defaultsearch.data.realkeyword:searchInput.value}&type=${type}`,response=>localStorage.setItem(name,JSON.stringify(response.result)));
+    XHR('/search','GET',`keywords=${!searchInput.value?defaultsearch.data.realkeyword:searchInput.value}&type=${type}&limit=3`,response=>localStorage.setItem(name,JSON.stringify(response.result)));
   }
   differentTypeSearch('search-artist','100');
   differentTypeSearch('search-album','10');
   differentTypeSearch('search-user','1002');
   differentTypeSearch('search-music','1');
   differentTypeSearch('search-playlist','1000');
-  //验证是否存在
-  // console.log(JSON.parse(localStorage.getItem('search-artist')));
-  let searchArtist = 
+  //先验证是否存在，再填充内容
   searchDropdown.innerHTML =`
-  <div class="search-artist">歌手</div>
+  <div class="search-artist search-title">歌手</div>
   <div class="search-artist-list"><a href="">${[...JSON.parse(localStorage.getItem('search-artist')).artists].length === 0?'':JSON.parse(localStorage.getItem('search-artist')).artists[0].name}</a></div>
-  <div class="search-album">专辑</div>
+  <div class="search-artist-list"><a href="">${[...JSON.parse(localStorage.getItem('search-artist')).artists].length < 1?'':JSON.parse(localStorage.getItem('search-artist')).artists[1].name}</a></div>
+  <div class="search-artist-list"><a href="">${[...JSON.parse(localStorage.getItem('search-artist')).artists].length < 2?'':JSON.parse(localStorage.getItem('search-artist')).artists[2].name}</a></div>
+  <div class="search-album search-title">专辑</div>
   <div class="search-album-list"><a href="">${[...JSON.parse(localStorage.getItem('search-album')).albums].length === 0?'':JSON.parse(localStorage.getItem('search-album')).albums[0].name}</a></div>
-  <div class="search-user">用户</div>
+  <div class="search-album-list"><a href="">${[...JSON.parse(localStorage.getItem('search-album')).albums].length < 2?'':JSON.parse(localStorage.getItem('search-album')).albums[1].name}</a></div>
+  <div class="search-album-list"><a href="">${[...JSON.parse(localStorage.getItem('search-album')).albums].length < 3?'':JSON.parse(localStorage.getItem('search-album')).albums[2].name}</a></div>
+  <div class="search-user search-title">用户</div>
   <div class="search-user-list"><a href="">${[...JSON.parse(localStorage.getItem('search-user')).userprofiles].length === 0?'':JSON.parse(localStorage.getItem('search-user')).userprofiles[0].nickname}</a></div>
-  <div class="search-music">单曲</div>
-  <div class="search-music-list"><a href="">${[...JSON.parse(localStorage.getItem('search-music')).songs].length ==0?'':JSON.parse(localStorage.getItem('search-music')).songs[0].name}</a></div>
-  <div class="search-playlist">歌单</div>
-  <div class="search-playlist-list"><a href="">${[...JSON.parse(localStorage.getItem('search-playlist')).playlists].length===0?'':JSON.parse(localStorage.getItem('search-playlist')).playlists[0].name}</a></div>
+  <div class="search-user-list"><a href="">${[...JSON.parse(localStorage.getItem('search-user')).userprofiles].length < 2?'':JSON.parse(localStorage.getItem('search-user')).userprofiles[1].nickname}</a></div>
+  <div class="search-user-list"><a href="">${[...JSON.parse(localStorage.getItem('search-user')).userprofiles].length < 3?'':JSON.parse(localStorage.getItem('search-user')).userprofiles[2].nickname}</a></div>
+  <div class="search-music search-title">单曲</div>
+  <div class="search-music-list"><a href="">${[...JSON.parse(localStorage.getItem('search-music')).songs].length === 0?'':JSON.parse(localStorage.getItem('search-music')).songs[0].name}</a></div>
+  <div class="search-music-list"><a href="">${[...JSON.parse(localStorage.getItem('search-music')).songs].length < 2?'':JSON.parse(localStorage.getItem('search-music')).songs[1].name}</a></div>
+  <div class="search-music-list"><a href="">${[...JSON.parse(localStorage.getItem('search-music')).songs].length < 3?'':JSON.parse(localStorage.getItem('search-music')).songs[2].name}</a></div>
+  <div class="search-playlist search-title">歌单</div>
+  <div class="search-playlist-list"><a href="">${[...JSON.parse(localStorage.getItem('search-playlist')).playlists].length === 0?'':JSON.parse(localStorage.getItem('search-playlist')).playlists[0].name}</a></div>
+  <div class="search-playlist-list"><a href="">${[...JSON.parse(localStorage.getItem('search-playlist')).playlists].length < 2?'':JSON.parse(localStorage.getItem('search-playlist')).playlists[1].name}</a></div>
+  <div class="search-playlist-list"><a href="">${[...JSON.parse(localStorage.getItem('search-playlist')).playlists].length < 3?'':JSON.parse(localStorage.getItem('search-playlist')).playlists[2].name}</a></div>
   `;
 }
 //打开页面渲染
 searchinput();
-searchInput.addEventListener('keyup',searchinput);
+searchInput.addEventListener('keyup',debound(searchinput,2000));
+//以后在加懒加载
+
 // 音乐相关函数
-// function aboutmusic(title, data, drawAction) {
-//   const SlideList = document.querySelector(title).querySelector('.m-slide-list');
-//   data.forEach(element => {
-//     let section = document.createElement('section');
-//     SlideList.append(section);
-//     section.className = 'm-slide-item';
-//     drawAction(section, element);
-//   })
-// }
-// // 推荐歌单
-// XHR('/personalized', 'GET', null, response => {
-//   aboutmusic('.recommendation', response.result, (section, element) => {
-//     section.innerHTML = `
-//     <div class="m-slide-item-pic">
-//     <img src="${element.picUrl}" alt="">
-//     <i class="m-cover-mask"></i>
-//     <i class="m-video-play"></i>
-//     </div>
-//     <div class="m-des">
-//     <h4><a href="">${element.name}</a></h4>
-//     <p>播放量：${element.playCount}</p>
-//     </div>`;
-//   });
-// });
-// // 新歌首发
-// XHR('/personalized/newsong', 'GET', 'limit=27', response => {
-//   aboutmusic('.new-songs-starts', response.result, (section, element) => {
-//     let time = handleTime(element.song.duration);
-//     section.innerHTML = `
-//     <div class="m-slide-item-pic">
-//       <img src="${element.picUrl}" alt="${element.name}">
-//       <i class="m-cover-mask"></i>
-//       <i class="m-video-play"></i>
-//     </div>
-//     <div class="m-desc">
-//       <h4><a href="">${element.name}</a></h4>
-//       <p><a href="">${element.song.artists[0].name}</a></p>
-//     </div>
-//     <time>${time}</time>`;
-//   });
-// });
-// // 精彩推荐
-// XHR('/personalized/privatecontent', 'GET', null, response => {
-//   aboutmusic('.ex-recommendation', response.result, (section, element) => {
-//     section.innerHTML = `
-//     <div class="m-slide-item-pic">
-//         <img src="${element.picUrl}" alt="${element.name}">
-//     </div>`;
-//     section.addEventListener('click', () => window.open(element.sPicUrl));
-//   });
-// })
-// // 新碟首发
-// XHR('/album/new', 'GET', 'limit=10', response => {
-//   aboutmusic('.new-disc-starts', response.albums, (section, element) => {
-//     section.innerHTML = `
-//     <div class="m-slide-item-pic">
-//     <img src="${element.blurPicUrl}" alt="${element.name}">
-//     <i class="m-cover-mask"></i>
-//     <i class="m-video-play"></i>
-//     </div>
-//     <div class="m-des">
-//     <h4><a href="">${element.name}</a></h4>
-//     <p>${element.artist.name}</p>
-//     </div>`;
-//     // section.addEventListener('click', () => window.open(element.sPicUrl));
-//   });
-// })
-// // 最新专辑
-// XHR('/mv/first', 'GET', 'limit=10', response => {
-//   aboutmusic('.music-video', response.data, (section, element) => {
-//     section.innerHTML = `
-//     <div class="m-slide-item-pic">
-//     <img src="${element.cover}" alt="${element.name}">
-//     <i class="m-cover-mask"></i>
-//     <i class="m-video-play"></i>
-//     </div>
-//     <div class="m-des">
-//     <h4><a href="">${element.name}</a></h4>
-//     <p>${element.artistName}</p>
-//     <div><i class="icon-video"></i>${element.playCount}</div>`;
-//     section.addEventListener('click', () => {
-//       XHR('/mv/url', 'GET', 'id=' + element.id, response2 => window.open(response2.data.url))
-//     });
-//   });
-// });
+function aboutmusic(title, data, drawAction) {
+  const SlideList = document.querySelector(title).querySelector('.m-slide-list');
+  data.forEach(element => {
+    let section = document.createElement('section');
+    SlideList.append(section);
+    section.className = 'm-slide-item';
+    section.setAttribute('data-res-id',element.id);
+    section.addEventListener('click',()=>{
+      window.location.href = `play.html?id=${section.getAttribute('data-res-id')}`
+    });
+    drawAction(section, element);
+  })
+}
+// 推荐歌单
+XHR('/personalized', 'GET', null, response => {
+  aboutmusic('.recommendation', response.result, (section, element) => {
+    section.innerHTML = `
+    <div class="m-slide-item-pic">
+    <img src="${element.picUrl}" alt="">
+    <i class="m-cover-mask"></i>
+    <i class="m-video-play"></i>
+    </div>
+    <div class="m-des">
+    <h4><a href="">${element.name}</a></h4>
+    <p>播放量：${element.playCount}</p>
+    </div>`;
+  });
+});
+// 新歌首发
+XHR('/personalized/newsong', 'GET', 'limit=27', response => {
+  aboutmusic('.new-songs-starts', response.result, (section, element) => {
+    let time = handleTime(element.song.duration);
+    // console.log(element)
+    section.innerHTML = `
+    <div class="m-slide-item-pic">
+      <img src="${element.picUrl}" alt="${element.name}">
+      <i class="m-cover-mask"></i>
+      <i class="m-video-play"></i>
+    </div>
+    <div class="m-desc">
+      <h4><a href="">${element.name}</a></h4>
+      <p><a href="">${element.song.artists[0].name}</a></p>
+    </div>
+    <time>${time}</time>`;
+  });
+});
+// 精彩推荐
+XHR('/personalized/privatecontent', 'GET', null, response => {
+  aboutmusic('.ex-recommendation', response.result, (section, element) => {
+    section.innerHTML = `
+    <div class="m-slide-item-pic">
+        <img src="${element.picUrl}" alt="${element.name}">
+    </div>`;
+    section.addEventListener('click', () => window.open(element.sPicUrl));
+  });
+})
+// 新碟首发
+XHR('/album/new', 'GET', 'limit=10', response => {
+  aboutmusic('.new-disc-starts', response.albums, (section, element) => {
+    section.innerHTML = `
+    <div class="m-slide-item-pic">
+    <img src="${element.blurPicUrl}" alt="${element.name}">
+    <i class="m-cover-mask"></i>
+    <i class="m-video-play"></i>
+    </div>
+    <div class="m-des">
+    <h4><a href="">${element.name}</a></h4>
+    <p>${element.artist.name}</p>
+    </div>`;
+    // section.addEventListener('click', () => window.open(element.sPicUrl));
+  });
+})
+// 最新专辑
+XHR('/mv/first', 'GET', 'limit=10', response => {
+  aboutmusic('.music-video', response.data, (section, element) => {
+    section.innerHTML = `
+    <div class="m-slide-item-pic">
+    <img src="${element.cover}" alt="${element.name}">
+    <i class="m-cover-mask"></i>
+    <i class="m-video-play"></i>
+    </div>
+    <div class="m-des">
+    <h4><a href="">${element.name}</a></h4>
+    <p>${element.artistName}</p>
+    <div><i class="icon-video"></i>${element.playCount}</div>`;
+    section.addEventListener('click', () => {
+      XHR('/mv/url', 'GET', 'id=' + element.id, response2 => window.open(response2.data.url))
+    });
+  });
+});
 });
 export {};

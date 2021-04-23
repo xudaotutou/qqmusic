@@ -15,4 +15,8 @@ function loginHiden() {
     loginBox.style.display = 'none';
     loginmask.style.display = 'none';
 }// 隐藏登录页面
-export{handleTime, loginHiden,loginAppear,loginmask,loginBox,loginBtn};
+function debound(fn,delay){
+    let deboundid = null;
+    return ()=>deboundid ? clearTimeout(deboundid) : setTimeout(fn,delay);
+}//防抖
+export{handleTime, loginHiden,loginAppear,loginmask,loginBox,loginBtn, debound};
