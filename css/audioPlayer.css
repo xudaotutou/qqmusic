@@ -1,0 +1,58 @@
+.g-container {
+    width: 75rem;
+    margin: auto;
+}
+.audio-player-box {
+    position: fixed;
+    display: grid;
+    bottom: 0;
+    width: 100%;
+    border-top: .1rem solid #999;
+    grid-template: 3rem 2rem/auto 4rem 4rem 10rem 4rem 4rem 4rem 10rem 4rem 10rem auto;
+    place-items: center center;
+}
+.audio-player-box .btn {
+    display: flex;
+    width: 2rem;
+    height: 2rem;
+    background-color: #e5e5e5;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+}
+.like {
+    grid-area: 1/2/3/3;
+}
+.backward {
+    grid-area: 1/5/2/6;
+}
+.play {
+    grid-area: 1/6/2/7;
+}
+.forward {
+    grid-area: 1/7/2/8;
+}
+.current-time {
+    grid-area: 2/3/3/4;
+}
+.entire-progress {
+    display: flex;
+    width: 20rem;
+    height: .2rem;
+    background-color: #999;
+    border-radius: .25rem;
+    grid-area: 2/4/3/9;
+    align-items: center;
+}
+.now-progress {
+    height: .3rem;
+    width: 0;
+    background-color: red;
+    border-radius: .25rem;
+}
+.total-time {
+    grid-area: 2/9/3/10;
+}
+.volume {
+    grid-area: 1/10/3/11;
+}

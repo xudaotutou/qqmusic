@@ -1,5 +1,6 @@
 "use strict";
-import { handleTime, loginAppear, loginHiden, loginBtn, loginmask, loginBox, debound} from './function.js';
+import { handleTime, debound, XHR} from './function.js';
+import {loginHiden,loginAppear,loginmask,loginBox,loginBtn } from './index.js';
 //适配rem
 (function (doc, win) {
   let docEl = doc.documentElement,
@@ -19,31 +20,6 @@ import { handleTime, loginAppear, loginHiden, loginBtn, loginmask, loginBox, deb
 
 
 window.addEventListener('load',()=>{
-  //请求数据
-function XHR(url, method, data, action) {
-  const defaultUrlHeader = "https://autumnfish.cn/";
-  let xhr = new XMLHttpRequest();
-  if (method === 'GET') {
-    xhr.open('GET', `${defaultUrlHeader}${url}?timestamp=${Date.now()}&${data}`);
-    xhr.send();
-  } else {
-    xhr.open('POST', `${defaultUrlHeader}${url}?timestamp=${Date.now()}`);
-    // 添加时间戳，防止被缓存
-    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhr.send(`${data}`);
-  }
-  xhr.onreadystatechange = function () {
-    if (this.readyState === 4) {
-      if (this.status === 200) {
-        let response = JSON.parse(this.responseText);
-        if('function' === typeof action) action(response);
-      }
-      else {
-        console.log(this.status,url);
-      }
-    }
-  }
-}
 //刷头像
 function loginS(){
   let user = JSON.parse(localStorage.getItem('user'))

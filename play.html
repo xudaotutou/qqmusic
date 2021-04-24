@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,21 +8,34 @@
     <title>音乐播放器</title>
     <link rel="stylesheet" href="css/initialization.css">
     <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="./css/audioPlayer.css">
 </head>
+
 <body>
-    <main>
-        <article class="audio-player-module">
-            <div class="audio-player-box">
-                <audio class="audio-player" controls>
-                </audio>
-            </div>
-            <div class="play-list-box">
-                <ul class="play-list">
-                   <li></li> 
-                </ul>
-            </div>
-        </article>
+    <main class="g-container">
+        <div class="play-list-box">
+            <ul class="play-list">
+                <li></li>
+            </ul>
+        </div>
     </main>
-    <script src="js/audioPlayer.js"></script>
+    <div class="audio-player-box">
+        <div class="btn like"><i class="fa fa-heart-o"></i></div>
+        <div class="btn backward"><i class="fa fa-backward"></i></div>
+        <div class="btn play"><i class="fa fa-play"></i></div>
+        <div class="btn forward"><i class="fa fa-forward"></i></div>
+        <time class="current-time">00:00</time>
+        <div class="entire-progress">
+            <div class="now-progress"></div>
+        </div>
+        <time class="total-time">00:00</time>
+        <div class="volume">
+            <i class="fa fa-volume-up"></i>
+            <div class="volume-value"></div>
+        </div>
+    </div>
+    <audio class="audio"></audio>
+    <script src="js/audioPlayer.js" type="module"></script>
 </body>
+
 </html>
